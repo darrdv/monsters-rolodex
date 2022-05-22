@@ -16,11 +16,24 @@ class App extends Component {
     .then(users => this.setState({monsters: users}))
   }
 
+  /*
+  Moved onChange event to it's own method so that when state changes, searchField is not being recreated every time as it would with an anonymous function. This is a best practice for performance reasons.
+  */
+  onSearchChange = (event) => {
+    const searchField = event.target.value.toLocaleLowerCase()
+    this.setState(() => {
+      return {searchField}
+    })}
+  
+
   render(){
-    const filteredMonsters = this.state.monsters.filter((monster) => {
-      return monster.name.toLocaleLowerCase().includes(this.state.searchField)
+
+    const {monsters, searchField} = this.state
+    const {onSearchChange} = this
+    const filteredMonsters = monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(searchField)
    })
-    //const {monsters} = this.state;
+   
     const displayedMonsters = filteredMonsters.map((monster) => {
       return(
         <div key={monster.id}>
@@ -36,15 +49,8 @@ class App extends Component {
          className='search-box'
          type='search'
          placeholder='Search Monsters'
-         onChange={ (event) => {
-           console.log(event.target.value)
-           const searchField = event.target.value.toLocaleLowerCase()
-           
-           this.setState(() => {
-             return {searchField}
-           })
-         }
-         }/>
+         onChange={onSearchChange}
+         />
         <>
           {displayedMonsters}
         </>
