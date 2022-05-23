@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import CardList from './components/card-list/card-list'
 
 class App extends Component {
   constructor(){
@@ -24,24 +25,15 @@ class App extends Component {
     this.setState(() => {
       return {searchField}
     })}
-  
 
   render(){
-
     const {monsters, searchField} = this.state
     const {onSearchChange} = this
+
     const filteredMonsters = monsters.filter((monster) => {
       return monster.name.toLocaleLowerCase().includes(searchField)
    })
    
-    const displayedMonsters = filteredMonsters.map((monster) => {
-      return(
-        <div key={monster.id}>
-          <h1>{monster.name}</h1>
-        </div>
-      )
-    })
-
     return(
       <div className="App">
         <h1>Monster's Rolodex</h1>
@@ -51,9 +43,7 @@ class App extends Component {
          placeholder='Search Monsters'
          onChange={onSearchChange}
          />
-        <>
-          {displayedMonsters}
-        </>
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
