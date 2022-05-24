@@ -37,7 +37,7 @@ class App extends Component {
    
     return(
       <div className="App">
-        <h1>Monster's Rolodex</h1>
+        <h1 className="app-title">Monster's Rolodex</h1>
         <SearchBox
          className='monsters-search-box'
          type='search'
